@@ -1,18 +1,13 @@
-
-import * as mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 export const CoursesSchema = new mongoose.Schema({
-    seqNo: {
-        type:Number,
-        required:true
-    },
-    url: String,
-    iconUrl: String,
-    courseListIcon: String,
-    description: String,
-    longDescription: String,
-    category: String,
-    lessonsCount: Number,
-    promo: Boolean
+  seqNo: { type: Number, required: true },
+  url: String,
+  iconUrl: String,
+  courseListIcon: String,
+  description: String,
+  longDescription: String,
+  category: String,
+  lessonsCount: Number,
+  promo: Boolean,
 });
-

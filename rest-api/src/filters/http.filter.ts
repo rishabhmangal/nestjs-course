@@ -1,26 +1,25 @@
-import {ArgumentsHost, Catch, ExceptionFilter, HttpException} from '@nestjs/common';
-
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+} from '@nestjs/common';
 
 @Catch(HttpException)
-export class HttpExceptionFilter implements  ExceptionFilter {
+export class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    console.log('HTTP exception handler triggered', JSON.stringify(exception));
 
-    catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp(); //To define response to HTTP need Request & Response object
 
-        console.log("HTTP exception handler triggered",
-            JSON.stringify(exception));
+    const response = ctx.getResponse(),
+      //request = ctx.getRequest(),
+      statusCode = exception.getStatus();
 
-        const ctx = host.switchToHttp();
-
-        const response = ctx.getResponse(),
-              request = ctx.getRequest(),
-               statusCode = exception.getStatus();
-
-
-        return response.status(statusCode).json({
-            status: statusCode,
-            createdBy: "HttpExceptionFilter",
-            errorMessage: exception.message.message
-        });
-    }
-
+    return response.status(statusCode).json({
+      status: statusCode,
+      createdBy: 'HttpExceptionFilter',
+      errorMessage: exception.message,
+    });
+  }
 }
